@@ -123,6 +123,41 @@
             hold-trigger-on-release;
         };
 
+        // Preserve the four Vial AltGr key overrides without giving up the
+        // home-row modifiers on J, K, L, and semicolon. keep-mods leaves
+        // Right Alt pressed while the replacement keycode is emitted.
+        altgr_j: altgr_j {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&hmr RCTRL J>, <&kp LS(GRAVE)>;
+            mods = <(MOD_RALT)>;
+            keep-mods = <(MOD_RALT)>;
+        };
+
+        altgr_k: altgr_k {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&hmr RSHIFT K>, <&kp N6>;
+            mods = <(MOD_RALT)>;
+            keep-mods = <(MOD_RALT)>;
+        };
+
+        altgr_l: altgr_l {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&hmr RGUI L>, <&kp GRAVE>;
+            mods = <(MOD_RALT)>;
+            keep-mods = <(MOD_RALT)>;
+        };
+
+        altgr_semi: altgr_semi {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&hmr LALT SEMI>, <&kp COMMA>;
+            mods = <(MOD_RALT)>;
+            keep-mods = <(MOD_RALT)>;
+        };
+
         mmv {
             acceleration-exponent = <1>;     // 1
             time-to-max-speed-ms = <300>;    // 40
@@ -132,16 +167,6 @@
             acceleration-exponent = <0>;     // 0
             time-to-max-speed-ms = <40>;     // 500
             delay-ms = <0>;                  // 10
-        };
-    };
-
-    // Hold Space/NAV and Backspace/SYMBOL together for firmware controls.
-    conditional_layers {
-        compatible = "zmk,conditional-layers";
-
-        system_layer {
-            if-layers = <NAV SYMBOL>;
-            then-layer = <SYSTEM>;
         };
     };
 
@@ -163,6 +188,15 @@
             bindings = <&ht LSHIFT DEL>;
             layers = <BASE>;
         };
+
+        // Cross-hand outer-thumb chord for firmware and connection controls.
+        system_thumb_controls {
+            timeout-ms = <50>;
+            key-positions = <30 33>;
+            bindings = <&mo SYSTEM>;
+            layers = <BASE>;
+            slow-release;
+        };
     };
 
     keymap {
@@ -172,7 +206,7 @@
             display-name = "BASE";
             bindings = <
             &kp Q           &kp W           &kp E            &kp R           &kp T        &kp Y        &kp U           &kp I            &kp O           &kp P
-            &hml LALT A     &hml LGUI S     &hml LSHIFT D     &hml LCTRL F    &kp G        &kp H        &hmr RCTRL J    &hmr RSHIFT K    &hmr RGUI L     &hmr RALT SEMI
+            &hml LALT A     &hml LGUI S     &hml LSHIFT D     &hml LCTRL F    &kp G        &kp H        &altgr_j       &altgr_k         &altgr_l        &altgr_semi
             &kp Z           &kp X           &kp C            &hml RALT V     &kp B        &kp N        &hmr RALT M     &kp COMMA        &ltc FUNC DOT    &kp FSLH
             &ltc NAV SPACE  &kp TAB         &ltc SHIFT_SYMBOL ENTER          &ltc SYMBOL BSPC
             >;
@@ -182,7 +216,7 @@
             display-name = "NAV";
             bindings = <
             &kp N6          &kp N7          &kp N8           &kp N9          &kp N0       &kp LC(LEFT)  &kp PG_DN       &kp PG_UP        &kp LC(RIGHT)   &kp LC(DEL)
-            &hml LALT N1    &hml LGUI N2    &hml LSHIFT N3   &hml LCTRL N4   &kp N5       &kp LEFT      &kp DOWN        &kp UP           &hmr RGUI RIGHT &hmr RALT SPACE
+            &hml LALT N1    &hml LGUI N2    &hml LSHIFT N3   &hml LCTRL N4   &kp N5       &kp LEFT      &kp DOWN        &kp UP           &hmr RGUI RIGHT &hmr LALT SPACE
             &kp LC(Z)       &kp LC(X)       &kp LC(C)        &kp LC(V)       &kp LC(LS(Z)) &kp HOME     &kp LC(PG_DN)  &kp LC(PG_UP)   &kp END         &kp LC(BSPC)
             &trans          &kp TAB         &hmr LC(LSHIFT) ENTER           &hmr LCTRL BSPC
             >;
