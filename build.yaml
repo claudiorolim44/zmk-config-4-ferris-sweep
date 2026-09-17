@@ -25,12 +25,6 @@ include:
     #snippet: zmk-usb-logging
     
   - board: nice_nano//zmk
-    shield: cradio_left
-    snippet: zmk-usb-logging
-    cmake-args: -DCONFIG_ZMK_STUDIO=n -DCONFIG_ZMK_LOG_LEVEL_DBG=y
-    artifact-name: cradio_left_ble_logging
-    
-  - board: nice_nano//zmk
     shield: cradio_right
   - board: nice_nano//zmk
     shield: settings_reset
